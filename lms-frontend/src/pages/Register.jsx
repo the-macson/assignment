@@ -22,10 +22,12 @@ const Register = () => {
   const [error, setError] = useState({});
   const [token, setToken] = useState("");
   const toast = useToast();
+
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
     setError({ ...error, [e.target.name]: "" });
   };
+
   const errorHandling = () => {
     var error = {};
     var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
@@ -54,6 +56,7 @@ const Register = () => {
       return true;
     }
   };
+
   const handleSubmit = () => {
     if (errorHandling()) {
       return;
@@ -63,6 +66,7 @@ const Register = () => {
         email: form.email,
         password: form.password,
         name: form.name,
+        token: token,
       })
       .then((res) => {
         if (res.data.token) {
@@ -129,7 +133,7 @@ const Register = () => {
             isInvalid={error.confirmPassword}
           >
             <FormLabel className={styles.loginFormInputText}>
-              Password
+              Confirm Password
             </FormLabel>
             <Input
               name="confirmPassword"
