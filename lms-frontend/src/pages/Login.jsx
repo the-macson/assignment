@@ -8,6 +8,7 @@ import {
   FormErrorMessage,
   Heading,
   useToast,
+  Button
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -22,6 +23,7 @@ const Login = () => {
   const [error, setError] = useState({});
   const [token, setToken] = useState("");
   const toast = useToast();
+  const [loading, setLoading] = useState(false);
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
     setError({ ...error, [e.target.name]: "" });
@@ -46,6 +48,7 @@ const Login = () => {
     if (errorHandling()) {
       return;
     }
+    setLoading(true);
     axios
       .post(Api.login, { ...form, token })
       .then((res) => {
@@ -54,6 +57,7 @@ const Login = () => {
         }
       })
       .catch((err) => {
+        setLoading(false);
         toast({
           title: err.response.data.message,
           status: "error",
@@ -114,12 +118,16 @@ const Login = () => {
             </span>
           </Box>
           <Box className={styles.loginFormButton}>
-            <button
+            <Button
               onClick={handleSubmit}
+              isLoading={loading}
+              loadingText="Logging in"
+              pl={5}
+              pr={5}
               className={styles.loginFormButtonField}
             >
               Login
-            </button>
+            </Button>
           </Box>
         </Box>
       </Box>

@@ -22,6 +22,7 @@ const Register = () => {
   const [error, setError] = useState({});
   const [token, setToken] = useState("");
   const toast = useToast();
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -61,6 +62,7 @@ const Register = () => {
     if (errorHandling()) {
       return;
     }
+    setLoading(true);
     axios
       .post(Api.register, {
         email: form.email,
@@ -79,6 +81,7 @@ const Register = () => {
           duration: 3000,
           isClosable: true,
         });
+        setLoading(false);
         console.log(err);
       });
   };
@@ -156,12 +159,16 @@ const Register = () => {
             </span>
           </Box>
           <Box className={styles.loginFormButton}>
-            <button
+            <Button
               onClick={handleSubmit}
               className={styles.loginFormButtonField}
+              isLoading={loading}
+              loadingText="Registering"
+              pl={5}
+              pr={5}
             >
               Register
-            </button>
+            </Button>
           </Box>
         </Box>
       </Box>
