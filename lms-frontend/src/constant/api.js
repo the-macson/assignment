@@ -1,4 +1,5 @@
-const BaseUrl = "http://localhost:4000";
+// const BaseUrl = "http://localhost:4000";
+const BaseUrl = "https://lms.choreoapps.dev";
 export const Api = {
   login: `${BaseUrl}/api/auth/login`,
   register: `${BaseUrl}/api/auth/register`,

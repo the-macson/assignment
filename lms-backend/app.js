@@ -11,7 +11,7 @@ app.use(express.json());
 app.use("/api", api);
 
 sequelize.authenticate().then(async () => {
-  await sequelize.sync();
+  // await sequelize.sync();
   console.log("Database connected successfully");
 });
 
