@@ -69,7 +69,7 @@ const CourseDetails = () => {
 
   const handleEnroll = (id) => {
     if (courseEnrolled) {
-      Navigate(`/course/${id}/content`);
+      return Navigate(`/course/${id}/content`);
     }
     setEnrollLoading(true);
     axios

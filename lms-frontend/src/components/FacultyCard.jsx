@@ -5,7 +5,7 @@ const FacultyCard = ({ faculty }) => {
     <Box maxW="sm" borderRadius="lg" overflow="hidden" boxShadow="md">
       <Flex justifyContent={"flex-end"}>
         <Image
-          src="../../public/isolated-young-handsome-man-different-poses-white-background-illustration.png"
+          src="/isolated-young-handsome-man-different-poses-white-background-illustration.png"
           alt="faculty"
           boxSize="full"
           objectFit="cover"
