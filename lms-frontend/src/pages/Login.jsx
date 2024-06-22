@@ -47,7 +47,7 @@ const Login = () => {
       return;
     }
     axios
-      .post(Api.login, {...form, token})
+      .post(Api.login, { ...form, token })
       .then((res) => {
         if (res.data.token) {
           login(res.data.token);
@@ -66,16 +66,6 @@ const Login = () => {
       });
   };
 
-  function Widget() {
-    return (
-      <Turnstile
-        siteKey={siteKey}
-        onSuccess={(token) => {
-          setToken(token);
-        }}
-      />
-    );
-  }
   return (
     <Box className={styles.container}>
       <Box className={styles.login}>
@@ -111,7 +101,7 @@ const Login = () => {
             />
             <FormErrorMessage>{error.password}</FormErrorMessage>
           </FormControl>
-          <Widget />
+          <Turnstile siteKey={siteKey} onSuccess={(token) => setToken(token)} />
           <Box pt={5} className={styles.loginRegister}>
             Don't have an account? &nbsp;
             <span

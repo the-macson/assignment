@@ -20,6 +20,7 @@ const Register = () => {
   const navigate = useNavigate();
   const [form, setForm] = useState({});
   const [error, setError] = useState({});
+  const [token, setToken] = useState("");
   const toast = useToast();
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -77,10 +78,6 @@ const Register = () => {
         console.log(err);
       });
   };
-
-  function Widget() {
-    return <Turnstile siteKey={siteKey} />;
-  }
 
   return (
     <Box className={styles.container}>
@@ -142,7 +139,7 @@ const Register = () => {
             />
             <FormErrorMessage>{error.confirmPassword}</FormErrorMessage>
           </FormControl>
-          <Widget />
+          <Turnstile siteKey={siteKey} onSuccess={(token) => setToken(token)} />
           <Box className={styles.loginRegister} pt={5}>
             Have an account? &nbsp;
             <span
