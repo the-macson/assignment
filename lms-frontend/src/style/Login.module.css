@@ -1,0 +1,40 @@
+.container {
+  min-height: 100vh;
+  color: #ffffff;
+  background-color: #32012f;
+  width: 100vw;
+}
+.login {
+  height: 100vh;
+}
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+.loginFormInput {
+  margin: 0.5rem;
+  padding: 0.5rem;
+  max-width: 500px;
+  border-radius: 0.25rem;
+}
+.loginFormButtonField {
+  margin: 2.5rem 0;
+  padding: 0.5rem 2.5rem;
+  max-width: 500px;
+  border-radius: 0.25rem;
+  background-color: #32012f;
+  color: #ffffff;
+  border: 1px solid #ffffff;
+  cursor: pointer;
+}
+.loginRegister {
+    text-align: center;
+    width: 100%;
+}
+.loginRegisterText {
+    color: #b9d8fa;
+    cursor: pointer;
+}
