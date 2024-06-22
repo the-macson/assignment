@@ -14,8 +14,6 @@ import {
   AccordionIcon,
   VStack,
   Divider,
-  Alert,
-  AlertIcon,
   useToast
 } from "@chakra-ui/react";
 import styles from "../style/Home.module.css";

@@ -7,16 +7,20 @@ import {
   FormLabel,
   FormErrorMessage,
   Heading,
+  useToast,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../provider/AuthProvider";
-import { Api } from "../constant/api";
+import { Api, siteKey } from "../constant/api";
+import { Turnstile } from "@marsidev/react-turnstile";
+
 const Register = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
   const [form, setForm] = useState({});
   const [error, setError] = useState({});
+  const toast = useToast();
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
     setError({ ...error, [e.target.name]: "" });
@@ -24,8 +28,8 @@ const Register = () => {
   const errorHandling = () => {
     var error = {};
     var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-    if(!form.name || form.name === "") {
-        error["name"] = "Name is required";
+    if (!form.name || form.name === "") {
+      error["name"] = "Name is required";
     }
     if (!form.email || form.email === "") {
       error["email"] = "Email is required";
@@ -41,8 +45,8 @@ const Register = () => {
     if (form.password != form.confirmPassword) {
       error["confirmPassword"] = "Password and Confirm Password must be same";
     }
-    if(!form.confirmPassword || form.confirmPassword === "") {
-        error["confirmPassword"] = "Confirm Password is required";
+    if (!form.confirmPassword || form.confirmPassword === "") {
+      error["confirmPassword"] = "Confirm Password is required";
     }
     setError(error);
     if (Object.keys(error).length > 0) {
@@ -53,16 +57,31 @@ const Register = () => {
     if (errorHandling()) {
       return;
     }
-    axios.post(Api.register, {
+    axios
+      .post(Api.register, {
         email: form.email,
         password: form.password,
-        name: form.name
-    }).then((res) => {
-      if (res.data.token) {
-        login(res.data.token);
-      }
-    });
+        name: form.name,
+      })
+      .then((res) => {
+        if (res.data.token) {
+          login(res.data.token);
+        }
+      }).catch((err) => {
+        toast({
+          title: err.response.data.message,
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
+        console.log(err);
+      });
   };
+
+  function Widget() {
+    return <Turnstile siteKey={siteKey} />;
+  }
+
   return (
     <Box className={styles.container}>
       <Box className={styles.login}>
@@ -70,10 +89,7 @@ const Register = () => {
           <Box className={styles.loginFormTitle}>
             <Heading className={styles.loginFormTitleText}>Register</Heading>
           </Box>
-          <FormControl
-            className={styles.loginFormInput}
-            isInvalid={error.name}
-          >
+          <FormControl className={styles.loginFormInput} isInvalid={error.name}>
             <FormLabel className={styles.loginFormInputText}>Name</FormLabel>
             <Input
               name="name"
@@ -126,7 +142,8 @@ const Register = () => {
             />
             <FormErrorMessage>{error.confirmPassword}</FormErrorMessage>
           </FormControl>
-          <Box className={styles.loginRegister}>
+          <Widget />
+          <Box className={styles.loginRegister} pt={5}>
             Have an account? &nbsp;
             <span
               className={styles.loginRegisterText}

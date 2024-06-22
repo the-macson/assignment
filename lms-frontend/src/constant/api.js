@@ -8,3 +8,7 @@ export const Api = {
   progress: `${BaseUrl}/api/courses/progress`,
   logout: `${BaseUrl}/api/auth/logout`,
 };
+
+export const siteKey = "0x4AAAAAAAdDEHmhZ0PjQNxH";
+
+// export const siteKey = "1x00000000000000000000AA";

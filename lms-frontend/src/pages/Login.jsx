@@ -7,19 +7,24 @@ import {
   FormLabel,
   FormErrorMessage,
   Heading,
+  useToast,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../provider/AuthProvider";
-import { Api } from "../constant/api";
+import { Api, siteKey } from "../constant/api";
+import { Turnstile } from "@marsidev/react-turnstile";
+
 const Login = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
   const [form, setForm] = useState({});
   const [error, setError] = useState({});
+  const [token, setToken] = useState("");
+  const toast = useToast();
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
-    setError({...error, [e.target.name]: ""})
+    setError({ ...error, [e.target.name]: "" });
   };
   const errorHandling = () => {
     var error = {};
@@ -41,12 +46,36 @@ const Login = () => {
     if (errorHandling()) {
       return;
     }
-    axios.post(Api.login, form).then((res) => {
-      if (res.data.token) {
-        login(res.data.token);
-      }
-    });
+    axios
+      .post(Api.login, {...form, token})
+      .then((res) => {
+        if (res.data.token) {
+          login(res.data.token);
+        }
+      })
+      .catch((err) => {
+        toast({
+          title: err.response.data.message,
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
+        if (err.response.status === 401) {
+          setError({ password: "Invalid email or password" });
+        }
+      });
   };
+
+  function Widget() {
+    return (
+      <Turnstile
+        siteKey={siteKey}
+        onSuccess={(token) => {
+          setToken(token);
+        }}
+      />
+    );
+  }
   return (
     <Box className={styles.container}>
       <Box className={styles.login}>
@@ -54,7 +83,10 @@ const Login = () => {
           <Box className={styles.loginFormTitle}>
             <Heading className={styles.loginFormTitleText}>Login</Heading>
           </Box>
-          <FormControl className={styles.loginFormInput} isInvalid={error.email}>
+          <FormControl
+            className={styles.loginFormInput}
+            isInvalid={error.email}
+          >
             <FormLabel className={styles.loginFormInputText}>Email</FormLabel>
             <Input
               name="email"
@@ -64,7 +96,10 @@ const Login = () => {
             />
             <FormErrorMessage>{error.email}</FormErrorMessage>
           </FormControl>
-          <FormControl className={styles.loginFormInput} isInvalid={error.password}>
+          <FormControl
+            className={styles.loginFormInput}
+            isInvalid={error.password}
+          >
             <FormLabel className={styles.loginFormInputText}>
               Password
             </FormLabel>
@@ -74,9 +109,10 @@ const Login = () => {
               type="password"
               onChange={handleChange}
             />
-          <FormErrorMessage>{error.password}</FormErrorMessage>
+            <FormErrorMessage>{error.password}</FormErrorMessage>
           </FormControl>
-          <Box className={styles.loginRegister}>
+          <Widget />
+          <Box pt={5} className={styles.loginRegister}>
             Don't have an account? &nbsp;
             <span
               className={styles.loginRegisterText}
