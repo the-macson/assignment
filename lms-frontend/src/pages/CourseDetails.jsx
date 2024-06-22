@@ -37,6 +37,7 @@ const CourseDetails = () => {
   const [enrollLoading, setEnrollLoading] = useState(false);
 
   useEffect(() => {
+    if (!auth) return Navigate("/login");
     getCourse(courseId);
   }, []);
 

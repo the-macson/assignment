@@ -30,6 +30,7 @@ const CourseContent = () => {
   const toast = useToast();
 
   useEffect(() => {
+    if (!auth) return Navigate("/login");
     getCourse(courseId);
   }, []);
 

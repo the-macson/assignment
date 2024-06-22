@@ -37,6 +37,7 @@ const CourseCatalog = () => {
   const toast = useToast();
 
   useEffect(() => {
+    if (!auth) return Navigate("/login");
     getCourse(viewCategory, title);
   }, [viewCategory, title]);
 

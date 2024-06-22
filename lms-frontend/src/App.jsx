@@ -32,6 +32,7 @@ function App() {
   const [searchLoading, setSearchLoading] = useState(false);
 
   useEffect(() => {
+    if (!auth) return Navigate("/login");
     getCourse(viewCategory, title);
   }, [viewCategory, title]);
 

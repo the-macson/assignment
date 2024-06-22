@@ -24,6 +24,7 @@ const Profile = () => {
   const toast = useToast();
 
   useEffect(() => {
+    if(!auth) return Navigate("/login");
     getCourse();
     getProgress();
   }, []);
