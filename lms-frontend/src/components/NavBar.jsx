@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  Box,
-  Flex,
-  HStack,
-  Button,
-} from "@chakra-ui/react";
+import { Box, Flex, HStack, Button } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../provider/AuthProvider";
 import axios from "axios";
@@ -22,11 +17,16 @@ const Links = [
     name: "My Courses",
     link: "/profile",
   },
+  {
+    name: "Admin",
+    link: "/admin",
+    role: "2",
+  },
 ];
 
 const NavBar = () => {
   const Navigate = useNavigate();
-  const { logout, auth } = useAuth();
+  const { logout, auth, userRole } = useAuth();
 
   const handleLogout = () => {
     axios
@@ -84,9 +84,11 @@ const NavBar = () => {
               spacing={4}
               display={{ base: "none", md: "flex" }}
             >
-              {Links.map((link, idx) => (
-                <NavLink key={idx} link={link} />
-              ))}
+              {Links.map((link, idx) =>
+                link.role === userRole || !link.role ? (
+                  <NavLink key={idx} link={link} />
+                ) : null
+              )}
             </HStack>
           </HStack>
           <Flex alignItems={"center"}>

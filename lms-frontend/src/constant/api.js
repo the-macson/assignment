@@ -7,6 +7,9 @@ export const Api = {
   enrollment: `${BaseUrl}/api/enrollments`,
   progress: `${BaseUrl}/api/courses/progress`,
   logout: `${BaseUrl}/api/auth/logout`,
+  adminCourse: `${BaseUrl}/api/admin/course`,
+  adminModule: `${BaseUrl}/api/admin/course/module`,
+  adminLesson: `${BaseUrl}/api/admin/course/lesson`,
 };
 
 export const siteKey = "0x4AAAAAAAdDEHmhZ0PjQNxH";

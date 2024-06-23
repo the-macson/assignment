@@ -73,7 +73,7 @@ const Register = () => {
       })
       .then((res) => {
         if (res.data.token) {
-          login(res.data.token);
+          login(res.data.token, res.data.role);
         }
       }).catch((err) => {
         toast({

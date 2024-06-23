@@ -8,6 +8,8 @@ import CourseDetails from "../pages/CourseDetails";
 import { useAuth } from "../provider/AuthProvider";
 import CourseContent from "../pages/CourseContent";
 import Profile from "../pages/Profile";
+import Dashboard from "../pages/admin/Dashboard";
+import AdminCourse from "../pages/admin/CourseContent"
 
 const Authentication = ({ children }) => {
   const navigate = useNavigate();
@@ -20,6 +22,16 @@ const Authentication = ({ children }) => {
   return children;
 };
 
+const Admin = ({ children }) => {
+  const navigate = useNavigate();
+  const { userRole } = useAuth();
+  useEffect(() => {
+    if (userRole !== "2") {
+      return navigate("/");
+    }
+  }, [navigate]);
+  return children;
+};
 
 const UnAuthentication = ({ children }) => {
   const navigate = useNavigate();
@@ -83,11 +95,31 @@ const RoutesPath = () => {
           </Authentication>
         }
       />
-      <Route  
+      <Route
         path="/profile"
         element={
           <Authentication>
             <Profile />
+          </Authentication>
+        }
+      />
+      <Route
+        path="/admin"
+        element={
+          <Authentication>
+            <Admin>
+              <Dashboard />
+            </Admin>
+          </Authentication>
+        }
+      />
+      <Route
+        path="/admin/:courseId"
+        element={
+          <Authentication>
+            <Admin>
+              <AdminCourse />
+            </Admin>
           </Authentication>
         }
       />

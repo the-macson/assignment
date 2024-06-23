@@ -6,17 +6,21 @@ export const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const token = localStorage.getItem("token");
+  const role = localStorage.getItem("role");
   useEffect(() => {
     if (!token) {
-      if(location.pathname === "/login" || location.pathname === "/register") return;
+      if (location.pathname === "/login" || location.pathname === "/register")
+        return;
       navigate("/login");
     }
   }, [token, navigate]);
   const [auth, setAuth] = useState(token);
-  const login = (token) => {
+  const [userRole, setUserRole] = useState(role);
+  const login = (token, role) => {
     localStorage.setItem("token", token);
+    localStorage.setItem("role", role);
     setAuth(token);
-    navigate('/');
+    navigate("/");
   };
   const logout = () => {
     localStorage.removeItem("token");
@@ -24,7 +28,7 @@ export const AuthProvider = ({ children }) => {
     navigate("/login");
   };
   return (
-    <AuthContext.Provider value={{ auth, login, logout }}>
+    <AuthContext.Provider value={{ auth, login, logout, userRole }}>
       {children}
     </AuthContext.Provider>
   );

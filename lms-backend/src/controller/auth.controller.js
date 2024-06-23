@@ -24,6 +24,7 @@ exports.register = async (req, res) => {
     res.status(200).send({
       message: "User was registered successfully!",
       token,
+      role: user.role,
     });
   } catch (err) {
     console.log(err);
@@ -63,6 +64,7 @@ exports.login = async (req, res) => {
     res.status(200).send({
       message: "User was logged in successfully!",
       token,
+      role: user.role,
     });
   } catch (err) {
     console.log(err);

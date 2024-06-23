@@ -18,6 +18,13 @@ const verifyToken = (req, res, next) => {
     next();
 }
 
+const isAdmin = (req, res, next) => {
+    if (req.authInfo.roles != 2) {
+        return res.status(403).send({ message: "Require Admin Role!" });
+    }
+    next();
+}
+
 module.exports = {
-    verifyToken
+    verifyToken, isAdmin
 }

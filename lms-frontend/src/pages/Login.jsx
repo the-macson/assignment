@@ -53,7 +53,7 @@ const Login = () => {
       .post(Api.login, { ...form, token })
       .then((res) => {
         if (res.data.token) {
-          login(res.data.token);
+          login(res.data.token, res.data.role);
         }
       })
       .catch((err) => {

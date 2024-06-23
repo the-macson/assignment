@@ -24,7 +24,7 @@ const Profile = () => {
   const toast = useToast();
 
   useEffect(() => {
-    if(!auth) return Navigate("/login");
+    if (!auth) return Navigate("/login");
     getCourse();
     getProgress();
   }, []);
@@ -87,70 +87,78 @@ const Profile = () => {
           <Heading>Profile</Heading>
           <Box pt={4}>
             <Text fontSize={"x-large"}>My Courses</Text>
-            <SimpleGrid
-              columns={{ base: 1, sm: 2, md: 3 }}
-              spacing={10}
-              p={5}
-              w={"100%"}
-            >
-              {course.map((item) => (
-                <CourseCard key={item.id} course={item} enrolled={true} />
-              ))}
-            </SimpleGrid>
+            {course.length === 0 ? (
+              <Text fontSize={"large"} pt={4}>
+                No course enrolled
+              </Text>
+            ) : (
+              <SimpleGrid
+                columns={{ base: 1, sm: 2, md: 3 }}
+                spacing={10}
+                p={5}
+                w={"100%"}
+              >
+                {course.map((item) => (
+                  <CourseCard key={item.id} course={item} enrolled={true} />
+                ))}
+              </SimpleGrid>
+            )}
           </Box>
-          <Box pt={4} pb={12}>
-            <Text fontSize={"x-large"} pb={8} pl={8}>
-              Progress of last 7 days
-            </Text>
-            <LineChart
-              width={780}
-              height={250}
-              data={progress}
-              margin={{ top: 5, right: 5, left: 20, bottom: 20 }}
-            >
-              <XAxis dataKey="date" tickLine={false} strokeWidth={2}>
-                <Label
-                  value="Date"
-                  position="bottom"
-                  offset={5}
-                  fill={"#fff"}
+          {course.length !== 0 && (
+            <Box pt={4} pb={12}>
+              <Text fontSize={"x-large"} pb={8} pl={8}>
+                Progress of last 7 days
+              </Text>
+              <LineChart
+                width={780}
+                height={250}
+                data={progress}
+                margin={{ top: 5, right: 5, left: 20, bottom: 20 }}
+              >
+                <XAxis dataKey="date" tickLine={false} strokeWidth={2}>
+                  <Label
+                    value="Date"
+                    position="bottom"
+                    offset={5}
+                    fill={"#fff"}
+                  />
+                </XAxis>
+                <YAxis
+                  tickLine={false}
+                  allowDecimals={false}
+                  strokeWidth={2}
+                  label={{
+                    value: "Completed lessons",
+                    angle: -90,
+                    position: "outside",
+                    fill: "#fff",
+                  }}
                 />
-              </XAxis>
-              <YAxis
-                tickLine={false}
-                allowDecimals={false}
-                strokeWidth={2}
-                label={{
-                  value: "Completed lessons",
-                  angle: -90,
-                  position: "outside",
-                  fill: "#fff",
-                }}
-              />
-              <Tooltip
-                itemStyle={{
-                  color: "#82ca9d",
-                }}
-                labelStyle={{
-                  color: "#82ca9d",
-                }}
-                cursor={false}
-                contentStyle={{
-                  border: "1px solid #ccc",
-                  padding: "5px 8px",
-                  borderRadius: "5px",
-                  backgroundColor: "black",
-                }}
-              />
-              <Line
-                type="monotone"
-                dataKey="lessons"
-                stroke="#82ca9d"
-                dot={false}
-                fill="#fff"
-              />
-            </LineChart>
-          </Box>
+                <Tooltip
+                  itemStyle={{
+                    color: "#82ca9d",
+                  }}
+                  labelStyle={{
+                    color: "#82ca9d",
+                  }}
+                  cursor={false}
+                  contentStyle={{
+                    border: "1px solid #ccc",
+                    padding: "5px 8px",
+                    borderRadius: "5px",
+                    backgroundColor: "black",
+                  }}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="lessons"
+                  stroke="#82ca9d"
+                  dot={false}
+                  fill="#fff"
+                />
+              </LineChart>
+            </Box>
+          )}
         </Box>
       )}
     </Box>
