@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Box, Flex, HStack, Button } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../provider/AuthProvider";
@@ -27,8 +27,9 @@ const Links = [
 const NavBar = () => {
   const Navigate = useNavigate();
   const { logout, auth, userRole } = useAuth();
-
+  const [isLoading, setIsLoading] = useState(false);
   const handleLogout = () => {
+    setIsLoading(true);
     axios
       .post(
         Api.logout,
@@ -43,6 +44,7 @@ const NavBar = () => {
       .then((res) => {
         logout();
         Navigate("/login");
+        setIsLoading(false);
       })
       .catch((err) => {
         console.log(err);
@@ -98,6 +100,8 @@ const NavBar = () => {
               size={"sm"}
               ml={4}
               onClick={handleLogout}
+              isLoading={isLoading}
+              loadingText="Logging out"
             >
               Logout
             </Button>
