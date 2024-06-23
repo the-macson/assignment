@@ -73,3 +73,4 @@ This is a course management system that allows students to view all courses, reg
 <img width="1703" alt="Screenshot 2024-06-23 at 7 53 18 PM" src="https://github.com/the-macson/assignment/assets/71259159/2c64a2f9-737a-482d-b7e1-18955113ac2e">
 
 
+Let's discuss regarding the assignment and my experience in the interview. I am looking forward to hearing from you.
