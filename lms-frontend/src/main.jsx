@@ -7,6 +7,8 @@ import {
 import "./index.css";
 import { useAuth, AuthProvider } from "./provider/AuthProvider.jsx";
 import RoutesPath from "./routes/Routes";
+import { inject } from "@vercel/analytics";
+inject();
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
